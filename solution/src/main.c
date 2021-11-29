@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
 
     free_image_data(&image);
 
-    FILE *out ={0};
+    FILE *out = {0};
 
     enum file_write_image_status file_write_status = write_file(&out, output_path);
     print_file_write_image_status(file_write_status);
