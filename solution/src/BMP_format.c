@@ -56,7 +56,7 @@ void free_image_data(struct image* img){
     img->height = 0;
 }
 
-enum bmp_read_status bmp_header_check(FILE* in, size_t size, const struct bmp_header bmp_header ){
+enum bmp_read_status bmp_header_check(FILE* in,  const struct bmp_header bmp_header ){
     fseek(in, 0, SEEK_END);
     uint32_t filesize = ftell(in);
     fseek(in, sizeof(struct bmp_header), SEEK_SET);
@@ -88,9 +88,9 @@ enum bmp_read_status bmp_header_check(FILE* in, size_t size, const struct bmp_he
 
 enum bmp_read_status from_bmp(FILE* in, struct image* img) {
     struct bmp_header bmp_header = {0};
-    size_t size = fread(&bmp_header,  sizeof(struct bmp_header), 1, in);
+    fread(&bmp_header,  sizeof(struct bmp_header), 1, in);
 
-    enum bmp_read_status header_check_status = bmp_header_check(in, size, bmp_header);
+    enum bmp_read_status header_check_status = bmp_header_check(in, bmp_header);
     if (header_check_status != READ_OK) {
         return header_check_status;
     }
