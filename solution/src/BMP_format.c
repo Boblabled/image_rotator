@@ -60,10 +60,11 @@ enum bmp_read_status bmp_header_check(FILE* in, size_t size, const struct bmp_he
     fseek(in, 0, SEEK_END);
     uint32_t filesize = ftell(in);
     fseek(in, sizeof(struct bmp_header), SEEK_SET);
-
+    /*
     if ((size != sizeof(struct bmp_header)) || (!in)) {
         return READ_INVALID_INPUT;
     }
+     */
 
     if (bmp_header.bfType != 0x4d42 && bmp_header.bfType != 0x4349 && bmp_header.bfType != 0x5450) {
         return READ_INVALID_SIGNATURE;
@@ -87,7 +88,7 @@ enum bmp_read_status bmp_header_check(FILE* in, size_t size, const struct bmp_he
 
 enum bmp_read_status from_bmp(FILE* in, struct image* img) {
     struct bmp_header bmp_header = {0};
-    size_t size = fread(&bmp_header, 1, sizeof(struct bmp_header), in);
+    size_t size = fread(&bmp_header,  sizeof(struct bmp_header), 1, in);
 
     enum bmp_read_status header_check_status = bmp_header_check(in, size, bmp_header);
     if (header_check_status != READ_OK) {
@@ -113,7 +114,7 @@ enum bmp_write_status to_bmp(FILE* out, struct image const* img) {
     bmp_header.biHeight = img->height;
     bmp_header.biWidth = img->width;
 
-    fwrite(&bmp_header, sizeof(bmp_header), 1, out);
+    fwrite(&bmp_header, sizeof(struct bmp_header), 1, out);
 
     const uint8_t zero = 0;
     for(size_t i = 0; i < img->height; i++) {
@@ -126,7 +127,7 @@ enum bmp_write_status to_bmp(FILE* out, struct image const* img) {
 
 char* const read_status_decoder[] = {
         [READ_OK] = "[INFO] - bmp file successfully read\n",
-        [READ_INVALID_INPUT] = "[ERROR] - invalid input size\n",
+        //[READ_INVALID_INPUT] = "[ERROR] - invalid input size\n",
         [READ_INVALID_SIGNATURE] = "[ERROR] - wrong format\n",
         [READ_INVALID_BITS] = "[ERROR] - invalid count of bits\n",
         [READ_INVALID_HEADER] = "[ERROR] - invalid header arguments\n",
