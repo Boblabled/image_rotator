@@ -111,7 +111,7 @@ enum bmp_write_status to_bmp(FILE* out, struct image const* img) {
 
     fwrite(&bmp_header, sizeof(struct bmp_header), 1, out);
 
-    const uint8_t zero = 0;
+    const uint64_t zero = 0;
     for(size_t i = 0; i < img->height; i++) {
         fwrite(&(img->data[i * img->width]), sizeof(struct pixel), img->width, out);
         fwrite(&zero, 1, img->width % 4, out);
