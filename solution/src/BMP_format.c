@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 #pragma pack(push, 1)
-static struct bmp_header {
+struct bmp_header {
     uint16_t bfType; // 0x4d42 | 0x4349 | 0x5450
     uint32_t bfileSize; // размер файла
     uint32_t bfReserved; // 0
@@ -20,7 +20,7 @@ static struct bmp_header {
     uint32_t biYPelsPerMeter; // вертикальное разрешение, точек на дюйм
     uint32_t biClrUsed; // Количество используемых цветов
     uint32_t biClrImportant; // Количество существенных цветов (можно считать 0)
-} bmp_header_t;
+};
 #pragma pack(pop)
 
 static struct bmp_header bmp_header_set(const struct image* img) {
