@@ -5,7 +5,7 @@ void free_image_data(struct image* img);
 
 enum bmp_read_status {
     READ_OK = 0,
-    //READ_INVALID_INPUT,
+    READ_INVALID_INPUT,
     READ_INVALID_SIGNATURE,
     READ_INVALID_BITS,
     READ_INVALID_HEADER,
