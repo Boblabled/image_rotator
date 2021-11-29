@@ -1,5 +1,6 @@
-#ifndef BMP_FORMAT_H
-#define BMP_FORMAT_H
+#ifndef IMAGE_ROTATOR_BMP_FORMAT_H
+#define IMAGE_ROTATOR_BMP_FORMAT_H
+#include <stdio.h>
 
 void free_image_data(struct image* img);
 
@@ -18,9 +19,9 @@ enum bmp_write_status {
 };
 
 enum bmp_read_status from_bmp(FILE* in, struct image* img);
-void print_bmp_read_status(enum bmp_read_status status);
+enum bmp_read_status print_bmp_read_status(enum bmp_read_status status);
 
 enum bmp_write_status to_bmp(FILE* out, struct image const* img);
-void print_bmp_write_status(enum bmp_write_status status);
+enum bmp_write_status print_bmp_write_status(enum bmp_write_status status);
 
-#endif //BMP_FORMAT_H
+#endif //IMAGE_ROTATOR_BMP_FORMAT_H

@@ -1,5 +1,5 @@
-#ifndef IMAGE_FORMAT_H
-#define IMAGE_FORMAT_H
+#ifndef IMAGE_ROTATOR_IMAGE_FORMAT_H
+#define IMAGE_ROTATOR_IMAGE_FORMAT_H
 #include <stdio.h>
 #include <stdint.h>
 
@@ -31,8 +31,8 @@ enum file_read_image_status read_file (FILE** file, const char* path);
 enum file_write_image_status write_file (FILE** file, const char* path);
 enum file_close_image_status close_file (FILE** file);
 
-void print_file_read_image_status(enum file_read_image_status status);
-void print_file_write_image_status(enum file_write_image_status status);
-void print_file_close_image_status(enum file_close_image_status status);
+enum file_read_image_status print_file_read_image_status(enum file_read_image_status status);
+enum file_write_image_status print_file_write_image_status(enum file_write_image_status status);
+enum file_close_image_status print_file_close_image_status(enum file_close_image_status status);
 
-#endif //IMAGE_FORMAT_H
+#endif //IMAGE_ROTATOR_IMAGE_FORMAT_H

@@ -1,6 +1,6 @@
-#ifndef ROTATE_ON_90_DEG_H
-#define ROTATE_ON_90_DEG_H
+#ifndef IMAGE_ROTATOR_ROTATION_90_DEG_H
+#define IMAGE_ROTATOR_ROTATION_90_DEG_H
 
-struct image rotate_on_90_deg(const struct image source);
+struct image rotate_on_90_deg(struct image const* source );
 
-#endif //ROTATE_ON_90_DEG_H
+#endif //IMAGE_ROTATOR_ROTATION_90_DEG_H

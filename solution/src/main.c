@@ -20,46 +20,18 @@ int main(int argc, char **argv) {
 
     FILE *in = {0};
 
-    enum file_read_image_status file_read_status = read_file(&in, input_path);
-    print_file_read_image_status(file_read_status);
-    if (file_read_status) {
-        return file_read_status;
-    }
+    if (print_file_read_image_status(read_file(&in, input_path))) return 1;
+    if (print_bmp_read_status(from_bmp(in, &image))) return 2;
+    if (print_file_close_image_status(close_file(&in))) return 3;
 
-    enum bmp_read_status bmp_read_status = from_bmp(in, &image);
-    print_bmp_read_status(bmp_read_status);
-    if (bmp_read_status) {
-        return bmp_read_status;
-    }
-    enum file_close_image_status file_in_close_status = close_file(&in);
-    print_file_close_image_status(file_in_close_status);
-    if (file_in_close_status) {
-        return file_in_close_status;
-    }
-
-    struct image image_rotated = rotate_on_90_deg(image);
-
+    struct image image_rotated = rotate_on_90_deg(&image);
     free_image_data(&image);
 
     FILE *out = {0};
 
-    enum file_write_image_status file_write_status = write_file(&out, output_path);
-    print_file_write_image_status(file_write_status);
-    if (file_write_status) {
-        return file_write_status;
-    }
-
-    enum bmp_write_status bmp_write_status = to_bmp(out, &image_rotated);
-    print_bmp_write_status(bmp_write_status);
-    if (bmp_write_status) {
-        return bmp_write_status;
-    }
-
-    enum file_close_image_status file_out_close_status = close_file(&out);
-    print_file_close_image_status(file_out_close_status);
-    if (file_out_close_status) {
-        return file_out_close_status;
-    }
+    if (print_file_write_image_status(write_file(&out, output_path))) return 4;
+    if (print_bmp_write_status(to_bmp(out, &image_rotated))) return 5;
+    if (print_file_close_image_status(close_file(&out))) return 6;
 
     free_image_data(&image_rotated);
 

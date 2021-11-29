@@ -1,14 +1,10 @@
-//Эти модули знают про модуль, описывающий struct image, но ничего не знают про
-//трансформации. Поэтому можно будет добавлять новые трансформации не переписывая
-//код для входных форматов.
-
 #include "image_format.h"
 #include "BMP_format.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 #pragma pack(push, 1)
-struct bmp_header {
+static struct bmp_header {
     uint16_t bfType; // 0x4d42 | 0x4349 | 0x5450
     uint32_t bfileSize; // размер файла
     uint32_t bfReserved; // 0
@@ -24,10 +20,10 @@ struct bmp_header {
     uint32_t biYPelsPerMeter; // вертикальное разрешение, точек на дюйм
     uint32_t biClrUsed; // Количество используемых цветов
     uint32_t biClrImportant; // Количество существенных цветов (можно считать 0)
-};
+} bmp_header_t;
 #pragma pack(pop)
 
-struct bmp_header bmp_header_set(const struct image* img) {
+static struct bmp_header bmp_header_set(const struct image* img) {
    struct bmp_header bmpHeader = {
            .bfType = 0x4d42,
            .bfileSize = img->height * img->width * sizeof(struct pixel) +
@@ -56,7 +52,7 @@ void free_image_data(struct image* img){
     img->height = 0;
 }
 
-enum bmp_read_status bmp_header_check(FILE* in, size_t size, const struct bmp_header bmp_header ){
+static enum bmp_read_status bmp_header_check(FILE* in, size_t size, const struct bmp_header bmp_header ){
     fseek(in, 0, SEEK_END);
     uint32_t filesize = ftell(in);
     fseek(in, sizeof(struct bmp_header), SEEK_SET);
@@ -87,7 +83,7 @@ enum bmp_read_status bmp_header_check(FILE* in, size_t size, const struct bmp_he
 
 enum bmp_read_status from_bmp(FILE* in, struct image* img) {
     struct bmp_header bmp_header = {0};
-    size_t size = fread(&bmp_header,  1, sizeof(struct bmp_header), in);
+    size_t size = fread(&bmp_header, 1, sizeof(struct bmp_header), in);
 
     enum bmp_read_status header_check_status = bmp_header_check(in, size, bmp_header);
     if (header_check_status != READ_OK) {
@@ -124,7 +120,7 @@ enum bmp_write_status to_bmp(FILE* out, struct image const* img) {
     return WRITE_OK;
 }
 
-char* const read_status_decoder[] = {
+static char* const read_status_decoder[] = {
         [READ_OK] = "[INFO] - bmp file successfully read\n",
         [READ_INVALID_INPUT] = "[ERROR] - invalid input size\n",
         [READ_INVALID_SIGNATURE] = "[ERROR] - wrong format\n",
@@ -133,15 +129,17 @@ char* const read_status_decoder[] = {
         [READ_INVALID_SIZE] = "[ERROR] - too big size of image\n"
 };
 
-void print_bmp_read_status(enum bmp_read_status status) {
+enum bmp_read_status print_bmp_read_status(enum bmp_read_status status) {
     printf("%s", read_status_decoder[status]);
+    return status;
 }
 
-char* const write_status_decoder[] = {
+static char* const write_status_decoder[] = {
         [WRITE_OK] = "[INFO] - bmp file successfully wrote\n",
         [WRITE_INVALID_INPUT] = "[ERROR] - invalid file input\n"
 };
 
-void print_bmp_write_status(enum bmp_write_status status) {
+enum bmp_write_status print_bmp_write_status(enum bmp_write_status status) {
     printf("%s", write_status_decoder[status]);
+    return status;
 }
