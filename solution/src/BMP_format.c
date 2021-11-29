@@ -144,4 +144,3 @@ char* const write_status_decoder[] = {
 void print_bmp_write_status(enum bmp_write_status status) {
     printf("%s", write_status_decoder[status]);
 }
-

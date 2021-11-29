@@ -1,7 +1,7 @@
-#include <stdio.h>
 #include "image_format.h"
 #include "BMP_format.h"
 #include "rotate_on_90_deg.h"
+#include <stdio.h>
 
 int main(int argc, char **argv) {
     (void) argc;
@@ -65,4 +65,3 @@ int main(int argc, char **argv) {
 
     return 0;
 }
-

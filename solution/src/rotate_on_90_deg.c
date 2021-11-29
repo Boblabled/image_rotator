@@ -2,9 +2,9 @@
 // Created by Maxim Abramov on 28.11.2021.
 //
 
-#include <stdlib.h>
 #include "rotate_on_90_deg.h"
 #include "image_format.h"
+#include <stdlib.h>
 
 /* создаёт копию изображения, которая повёрнута на 90 градусов */
 struct image rotate_on_90_deg(const struct image source) {
