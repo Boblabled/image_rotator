@@ -3,9 +3,11 @@
 #include <stdio.h>
 #include <stdint.h>
 
+#pragma pack(push, 1)
 struct pixel {
     uint8_t b, g, r;
 };
+#pragma pack(pop)
 
 struct image {
     uint64_t width, height;
@@ -31,8 +33,8 @@ enum file_read_image_status read_file (FILE** file, const char* path);
 enum file_write_image_status write_file (FILE** file, const char* path);
 enum file_close_image_status close_file (FILE** file);
 
-enum file_read_image_status print_file_read_image_status(enum file_read_image_status status);
-enum file_write_image_status print_file_write_image_status(enum file_write_image_status status);
-enum file_close_image_status print_file_close_image_status(enum file_close_image_status status);
+void print_file_read_image_status(enum file_read_image_status status);
+void print_file_write_image_status(enum file_write_image_status status);
+void print_file_close_image_status(enum file_close_image_status status);
 
 #endif //IMAGE_ROTATOR_IMAGE_FORMAT_H

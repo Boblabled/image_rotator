@@ -18,20 +18,66 @@ int main(int argc, char **argv) {
     const char * input_path = argv[1];
     const char * output_path = argv[2];
 
-    FILE *in = {0};
+    FILE *in = NULL;
 
-    if (print_file_read_image_status(read_file(&in, input_path))) return 1;
-    if (print_bmp_read_status(from_bmp(in, &image))) return 2;
-    if (print_file_close_image_status(close_file(&in))) return 3;
+    enum file_read_image_status file_read_image = read_file(&in, input_path);
+    print_file_read_image_status(file_read_image);
+    if (file_read_image) {
+        return file_read_image;
+    }
+
+    enum bmp_read_status bmp_read = from_bmp(in, &image);
+    print_bmp_read_status(bmp_read);
+    if (bmp_read) {
+        if (bmp_read == READ_INVALID_WIDTH || bmp_read == READ_INVALID_INCORRECT_FORMAT) {
+            free_image_data(&image);
+        }
+
+        enum file_close_image_status file_close_image_in = close_file(&in);
+        print_file_close_image_status(file_close_image_in);
+        if (file_close_image_in) {
+            return file_close_image_in;
+        }
+
+        return bmp_read;
+    }
+
+    enum file_close_image_status file_close_image_in = close_file(&in);
+    print_file_close_image_status(file_close_image_in);
+    if (file_close_image_in) {
+        return file_close_image_in;
+    }
 
     struct image image_rotated = rotate_on_90_deg(&image);
     free_image_data(&image);
 
-    FILE *out = {0};
+    FILE *out = NULL;
 
-    if (print_file_write_image_status(write_file(&out, output_path))) return 4;
-    if (print_bmp_write_status(to_bmp(out, &image_rotated))) return 5;
-    if (print_file_close_image_status(close_file(&out))) return 6;
+    enum file_write_image_status file_write_image = write_file(&out, output_path);
+    print_file_write_image_status(file_write_image);
+    if (file_write_image) {
+        return file_write_image;
+    }
+
+    enum bmp_write_status bmp_write = to_bmp(out, &image_rotated);
+    print_bmp_write_status(bmp_write);
+    if (bmp_write) {
+        free_image_data(&image_rotated);
+
+        enum file_close_image_status file_close_image_out = close_file(&out);
+        print_file_close_image_status(file_close_image_out);
+        if (file_close_image_out) {
+            return file_close_image_out;
+        }
+
+        return bmp_write;
+    }
+
+    enum file_close_image_status file_close_image_out = close_file(&out);
+    print_file_close_image_status(file_close_image_out);
+    if (file_close_image_out) {
+        return file_close_image_out;
+    }
 
     free_image_data(&image_rotated);
 

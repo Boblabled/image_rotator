@@ -10,9 +10,8 @@ static char* const file_read_image_status_decoder[] = {
         [FILE_READ_ERROR] = "[ERROR] - invalid file input\n"
 };
 
-enum file_read_image_status print_file_read_image_status(enum file_read_image_status status) {
+void print_file_read_image_status(enum file_read_image_status status) {
     printf("%s", file_read_image_status_decoder[status]);
-    return status;
 }
 
 
@@ -27,9 +26,8 @@ static char* const file_write_image_status_decoder[] = {
         [FILE_WRITE_ERROR] = "[ERROR] - invalid file input\n"
 };
 
-enum file_write_image_status print_file_write_image_status(enum file_write_image_status status) {
+void print_file_write_image_status(enum file_write_image_status status) {
     printf("%s", file_write_image_status_decoder[status]);
-    return status;
 }
 
 
@@ -47,7 +45,6 @@ static char* const file_close_image_status_decoder[] = {
         [FILE_CLOSE_ERROR] = "[ERROR] - file already closed\n"
 };
 
-enum file_close_image_status print_file_close_image_status(enum file_close_image_status status) {
+void print_file_close_image_status(enum file_close_image_status status) {
     printf("%s", file_close_image_status_decoder[status]);
-    return status;
 }
