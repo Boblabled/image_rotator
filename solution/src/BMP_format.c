@@ -59,12 +59,6 @@ void free_image_data(struct image* img){
     img->height = 0;
 }
 
-enum little_endian_bf_types {
-    LE_BFT_BM = 0x4d42,
-    LE_BFT_IC = 0x4349,
-    LE_BFT_PT = 0x5450
-};
-
 static enum bmp_read_status bmp_header_check(FILE* in, size_t size, const struct bmp_header bmp_header ){
     if (fseek(in, 0, SEEK_END)) {
         return READ_INVALID_INCORRECT_FORMAT;
