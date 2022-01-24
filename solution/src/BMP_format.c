@@ -4,6 +4,9 @@
 #include <stdlib.h>
 
 #define LE_BFT_BM 0x4d42
+#define LE_BFT_IC 0x4349
+#define LE_BFT_PT 0x5450
+
 #define BITMAPINFOHEADER 40
 
 #pragma pack(push, 1)
@@ -74,7 +77,7 @@ static enum bmp_read_status bmp_header_check(FILE* in, size_t size, const struct
         return READ_INVALID_INPUT;
     }
 
-    if (bmp_header.bfType != 0x4d42 && bmp_header.bfType != 0x4349 && bmp_header.bfType != 0x5450) {
+    if (bmp_header.bfType != LE_BFT_BM && bmp_header.bfType != LE_BFT_IC && bmp_header.bfType != LE_BFT_PT) {
         return READ_INVALID_SIGNATURE;
     }
 
