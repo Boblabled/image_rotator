@@ -99,6 +99,11 @@ enum bmp_read_status from_bmp(FILE* in, struct image* img) {
         return header_check_status;
     }
 
+    const uint32_t bitmap_start = bmp_header.bOffBits;
+    if (fseek( in, bitmap_start, SEEK_SET )) {
+        return READ_INVALID_SIGNATURE;
+    }
+
     img->height = bmp_header.biHeight;
     img->width = bmp_header.biWidth;
     img->data = (struct pixel*) malloc(img->width * img->height * sizeof(struct pixel));
