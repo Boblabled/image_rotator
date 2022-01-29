@@ -113,9 +113,11 @@ enum bmp_read_status from_bmp(FILE* in, struct image* img) {
 
     for (size_t i = 0; i < img->height; i++) {
         if (fread(&(img->data[i*img->width]), sizeof(struct pixel), img->width, in) != img->width) {
+            free_image_data(img);
             return READ_INVALID_WIDTH;
         }
         if (fseek(in, (uint8_t)img->width  % 4, SEEK_CUR)) {
+            free_image_data(img);
             return READ_INVALID_INCORRECT_FORMAT;
         }
     }
@@ -126,9 +128,6 @@ enum bmp_read_status from_bmp(FILE* in, struct image* img) {
 enum bmp_write_status to_bmp(FILE* out, struct image const* img) {
     if(out == NULL) return WRITE_INVALID_INPUT;
     struct bmp_header bmp_header = bmp_header_set(img);
-
-    bmp_header.biHeight = img->height;
-    bmp_header.biWidth = img->width;
 
     size_t written = fwrite(&bmp_header, sizeof(struct bmp_header), 1, out);
 
@@ -152,7 +151,7 @@ enum bmp_write_status to_bmp(FILE* out, struct image const* img) {
     return WRITE_OK;
 }
 
-static char* const read_status_decoder[] = {
+static const char* const read_status_decoder[] = {
         [READ_OK] = "[INFO] - bmp file successfully read\n",
         [READ_INVALID_INPUT] = "[ERROR] - invalid input size\n",
         [READ_INVALID_SIGNATURE] = "[ERROR] - wrong format\n",
@@ -166,7 +165,7 @@ void print_bmp_read_status(enum bmp_read_status status) {
     printf("%s", read_status_decoder[status]);
 }
 
-static char* const write_status_decoder[] = {
+static const char* const write_status_decoder[] = {
         [WRITE_OK] = "[INFO] - bmp file successfully wrote\n",
         [WRITE_INVALID_INPUT] = "[ERROR] - invalid file input\n",
         [WRITE_INVALID_HEADER] = "[ERROR] - invalid header was written\n",

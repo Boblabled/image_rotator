@@ -5,7 +5,7 @@ enum file_read_image_status read_file (FILE** file, const char* path) {
     return !*file ? FILE_READ_ERROR : FILE_READ_OK;
 }
 
-static char* const file_read_image_status_decoder[] = {
+static const char* const file_read_image_status_decoder[] = {
         [FILE_READ_OK] = "[INFO] - file successfully open to read\n",
         [FILE_READ_ERROR] = "[ERROR] - invalid file input\n"
 };
@@ -21,7 +21,7 @@ enum file_write_image_status write_file (FILE** file, const char* path) {
     return !*file ? FILE_WRITE_ERROR : FILE_WRITE_OK;
 }
 
-static char* const file_write_image_status_decoder[] = {
+static const char* const file_write_image_status_decoder[] = {
         [FILE_WRITE_OK] = "[INFO] - file successfully open to write\n",
         [FILE_WRITE_ERROR] = "[ERROR] - invalid file input\n"
 };
@@ -40,7 +40,7 @@ enum file_close_image_status close_file (FILE** file) {
     return FILE_CLOSE_OK;
 }
 
-static char* const file_close_image_status_decoder[] = {
+static const char* const file_close_image_status_decoder[] = {
         [FILE_CLOSE_OK] = "[INFO] - file successfully closed\n",
         [FILE_CLOSE_ERROR] = "[ERROR] - file already closed\n"
 };

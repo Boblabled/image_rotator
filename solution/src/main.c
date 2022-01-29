@@ -29,16 +29,7 @@ int main(int argc, char **argv) {
     enum bmp_read_status bmp_read = from_bmp(in, &image);
     print_bmp_read_status(bmp_read);
     if (bmp_read) {
-        if (bmp_read == READ_INVALID_WIDTH || bmp_read == READ_INVALID_INCORRECT_FORMAT) {
-            free_image_data(&image);
-        }
-
-        enum file_close_image_status file_close_image_in = close_file(&in);
-        print_file_close_image_status(file_close_image_in);
-        if (file_close_image_in) {
-            return file_close_image_in;
-        }
-
+        close_file(&in);
         return bmp_read;
     }
 
@@ -63,13 +54,7 @@ int main(int argc, char **argv) {
     print_bmp_write_status(bmp_write);
     if (bmp_write) {
         free_image_data(&image_rotated);
-
-        enum file_close_image_status file_close_image_out = close_file(&out);
-        print_file_close_image_status(file_close_image_out);
-        if (file_close_image_out) {
-            return file_close_image_out;
-        }
-
+        close_file(&out);
         return bmp_write;
     }
 
